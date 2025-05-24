@@ -8,7 +8,7 @@ Modulo Programador - ISPC 2025
 
 - Castellano, Carmen
 - Darwich, Lucas Javier
-- Rodriguez, Ivana Noemi -
+- Rodriguez, Ivana Noemi
 - Solana, Francisco
 - Zoto, Eduardo
 
