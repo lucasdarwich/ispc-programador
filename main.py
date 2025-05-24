@@ -1,6 +1,6 @@
 # SkyRoute - Sistema de Gestión de Pasajes
 # Autores:
-# • Castellano, Carmen
+# • Castellano, Carmen 
 # • Darwich, Lucas Javier
 # • Rodriguez, Ivana Noemi
 # • Solana, Francisco
@@ -11,11 +11,11 @@
 from datetime import datetime
 
 clientes = [
-    {"id": "C1", "nombre": "Carmen Castellano", "dni": "11111111"},
-    {"id": "C2", "nombre": "Lucas Javier Darwich", "dni": "22222222"},
-    {"id": "C3", "nombre": "Ivana Noemi Rodriguez", "dni": "33333333"},
-    {"id": "C4", "nombre": "Francisco Solana", "dni": "44444444"},
-    {"id": "C5", "nombre": "Eduardo Zoto", "dni": "55555555"}
+    {"id": "C1", "nombre": "Carmen Castellano", "dni": "20.287.449"},
+    {"id": "C2", "nombre": "Lucas Javier Darwich", "dni": "32.495.375"},
+    {"id": "C3", "nombre": "Ivana Noemi Rodriguez", "dni": "34.396.542"},
+    {"id": "C4", "nombre": "Francisco Solana", "dni": "42.385.409"},
+    {"id": "C5", "nombre": "Eduardo Zoto", "dni": "34.838.116"}
 ]
 
 provincias = ["Buenos Aires", "Catamarca", "Chaco", "Chubut", "Córdoba", "Corrientes", "Entre Ríos",
