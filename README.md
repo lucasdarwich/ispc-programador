@@ -12,7 +12,7 @@
 
 **SkyRoute** es un sistema de gestión de pasajes desarrollado como práctica de programación estructurada. Permite administrar clientes, destinos y ventas de pasajes, así como gestionar cancelaciones de compras mediante el derecho de arrepentimiento.
 
-El sistema se ejecuta en consola, sin modularización ni funciones, respetando los lineamientos de la cursada inicial.
+El sistema se ejecuta en consola, sin modularización ni funciones, respetando los lineamientos de la Evidencia II.
 
 ## Cómo ejecutar
 
