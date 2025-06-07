@@ -1,7 +1,7 @@
 # gestion_ventas.py
 # Registrar ventas y botón de arrepentimiento
-
-from conexion_base_datos import insertar_venta, listar_ventas, anular_venta
+from datetime import datetime
+from crudDB import insertar_venta, listar_ventas, anular_venta, buscar_venta
 
 def menu_gestion_ventas():
     print("\nIngresaste al Submenu Gestion Ventas...")
@@ -56,18 +56,24 @@ def boton_arrepentimiento():
     #Valida que el comprobante sea un numero
     if idVenta.isdigit():
         idVenta = int(idVenta)
-        ventaEncontrada = False  # Placeholder para la búsqueda
-
+        ventaEncontrada = buscar_venta(idVenta)  # Placeholder para la búsqueda
+        
         #En este punto se implementa un bucle para realizar la busqueda de la venta segun el comprobante ingresado
         if not ventaEncontrada:
             print("\n__________________________________________________")
             print(f"No se encontraron ventas con ese comprobante: {idVenta}.")
             print("__________________________________________________")
         else:
-            # Se verifica que este en los 60 dias de la fecha de venta y se actualiza el estado de la venta como ANULADA
-            print("\n__________________________________________________")
-            print(f"\nSe ha ANULADO la venta del comprobate ({idVenta}) exitosamente.")
-            print("__________________________________________________")
-            anular_venta(idVenta)
+            # Muestra los detalles de la venta y se actualiza el estado a ANULADA
+
+            print("\n__________________")
+            print("Detalles de la venta:")
+            #  id_venta, id_cliente, id_destino, fecha_formateada = resultado
+            print(ventaEncontrada) 
+            # Se hace update a ANULADA
+            mensaje = anular_venta(idVenta)
+            print(mensaje) 
+                       
     else:
         print("El numero de comprobante debe ser un número entero.")
+        

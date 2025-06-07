@@ -12,3 +12,4 @@ def mostrar_acerca_sistema():
     print("• Solana, Francisco")
     print("• Zoto, Eduardo")
     print(" Todos los derechos reservados.")
+    

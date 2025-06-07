@@ -1,7 +1,7 @@
 # gestion_clientes.py
 # Alta, baja, modificación, listado de clientes
 
-from conexion_base_datos import insertar_cliente, actualizar_cliente, eliminar_cliente, listar_clientes
+from crudDB import insertar_cliente, actualizar_cliente, eliminar_cliente, listar_clientes
 
 def menu_gestion_clientes():
     print("\nIngresaste al Submenu Gestion Clientes...")
@@ -75,3 +75,4 @@ def menu_gestion_clientes():
             break
         else:
             print("Opción no válida. Intente nuevamente.")
+            

@@ -1,7 +1,7 @@
 # gestion_destinos.py
 # Alta, baja, modificación, listado de destinos
 
-from conexion_base_datos import insertar_destino, actualizar_destino, eliminar_destino, listar_destinos
+from crudDB import insertar_destino, actualizar_destino, eliminar_destino, listar_destinos
 
 def menu_gestion_destinos():
     print("\nIngresaste al Submenu Gestion Destinos...")
@@ -61,3 +61,4 @@ def menu_gestion_destinos():
             break
         else:
             print("Opción no válida. Intente nuevamente.")
+            

@@ -25,3 +25,4 @@ def menu_reportes():
             break
         else:
             print("Opción no válida. Intente nuevamente.")
+            
