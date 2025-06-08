@@ -47,7 +47,7 @@ python main.py
 ```bash
 skyroute/
 │
-├── ABP/                        # Documento de Proyecto y Poster ABP
+├── ABP/                       # Documento de Proyecto, Poster ABP y Video del Grupo.
 ├── Base de Datos/             # Entregables Base de Datos
 ├── Etica y Deontologia/       # Entregable Ética y Deontología
 │
