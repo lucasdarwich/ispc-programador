@@ -1,7 +1,8 @@
 # reportes.py
 # Generación de reportes
 
-from crudDB import listar_clientes, listar_destinos, listar_ventas, ventas_del_mes,ventas_totales_por_mes_anio,ventas_anuladas,total_anuladas_por_mes_anio, todas_ventas_anuladas
+from crudDB import listar_clientes, listar_destinos, listar_ventas, ventas_del_mes,ventas_totales_por_mes_anio,ventas_anuladas, todas_ventas_anuladas
+
 def menu_reportes():
     print("\nIngresaste al Submenu Reportes...")
     while True: 
@@ -13,8 +14,7 @@ def menu_reportes():
         print("4. Ventas totales por MES/AÑO")
         print("5. Ventas ANULADAS en el dia")
         print("6. Todas las Ventas ANULADAS")
-        print("7. Total de ventas ANULADAS por MES/AÑO")
-        print("8. Volver al Menú Principal")
+        print("7. Volver al Menú Principal")
 
         opcion = input("Seleccione una opción: ")
          
@@ -30,10 +30,8 @@ def menu_reportes():
             ventas_anuladas()            
         elif opcion == "6":
             todas_ventas_anuladas()            
-        elif opcion == "7":
-            total_anuladas_por_mes_anio()
         #Volver al menu principal
-        elif opcion == "8":
+        elif opcion == "7":
             break
         else:
             print("Opción no válida. Intente nuevamente.")

@@ -1,7 +1,8 @@
 # gestion_ventas.py
 # Registrar ventas y botón de arrepentimiento
-from datetime import datetime
+
 from crudDB import insertar_venta, listar_ventas, anular_venta, buscar_venta, buscar_cliente,buscar_destino
+
 def menu_gestion_ventas():
     print("\nIngresaste al Submenu Gestion Ventas...")
     while True:
@@ -62,13 +63,12 @@ def boton_arrepentimiento():
          #Busca en la tabla si existe algun registro con ese id
         ventaEncontrada = buscar_venta(idVenta)  
         
-        #En este punto se implementa un bucle para realizar la busqueda de la venta segun el comprobante ingresado
         if not ventaEncontrada:
             print("\n__________________________________________________")
             print(f"No se encontraron ventas para anular con ese comprobante: {idVenta}.")
             print("__________________________________________________")
         else:
-            # Muestra los detalles de la venta y se actualiza el estado a ANULADA
+            # Muestra los detalles de la venta 
             print("\n--- DETALLE DE LA VENTA A ANULAR ---")
             print("-" * 90)
             print(ventaEncontrada)  

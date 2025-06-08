@@ -3,9 +3,8 @@
 from datetime import datetime
 from configDB import conectarDB
 
-# Funciones para operaciones CRUD (esqueleto)
+# Funcion para hacer insert en la tabla de cliente.
 def insertar_cliente(nombre, cuit, mail):
-    # Implementar lógica de inserción
     connection = None
     cursor = None
     try:
@@ -32,8 +31,8 @@ def insertar_cliente(nombre, cuit, mail):
         if connection and connection.is_connected():
             connection.close() 
 
-def actualizar_cliente(id_cliente, nombre, cuit, mail):
-    # Implementar lógica de actualización
+# Funcion para hacer actualizar nombre,cuit o mail en la tabla cliente.
+def actualizar_cliente(id_cliente, nombre, cuit, mail):    
     connection = None
     cursor = None
     try:
@@ -60,8 +59,8 @@ def actualizar_cliente(id_cliente, nombre, cuit, mail):
         if connection and connection.is_connected():
             connection.close()
 
-def eliminar_cliente(id_cliente):
-    # Implementar lógica de eliminación
+# Funcion para eliminar una fila de la tabla cliente.
+def eliminar_cliente(id_cliente):    
     connection = None
     cursor = None
     try:
@@ -89,7 +88,7 @@ def eliminar_cliente(id_cliente):
             connection.close()
     
 
-
+# Funcion para hacer listar la tabla cliente.
 def listar_clientes():
     connection = None
     cursor = None
@@ -117,8 +116,8 @@ def listar_clientes():
         if connection and connection.is_connected():
             connection.close()
 
+# Funcion para hacer insert en la tabla de destino.
 def insertar_destino(pais, ciudad, costo):
-    # Implementar lógica de inserción
     connection = None
     cursor = None
     try:
@@ -139,9 +138,8 @@ def insertar_destino(pais, ciudad, costo):
     except Exception as e:
         print(f"Error al intentar dar de alta un destino: {e}")
 
-
+# Funcion para hacer modificar un destino.
 def actualizar_destino(id_destino, pais, ciudad, costo):
-    # Implementar lógica de actualización
     connection = None
     cursor = None
     try:
@@ -168,8 +166,8 @@ def actualizar_destino(id_destino, pais, ciudad, costo):
         if connection and connection.is_connected():
             connection.close()
 
+# Funcion para hacer eliminar una fila en la tabla destino.
 def eliminar_destino(id_destino): 
-    # Implementar lógica de eliminación
     connection = None
     cursor = None
     try:
@@ -197,8 +195,8 @@ def eliminar_destino(id_destino):
             connection.close()
     
 
+# Funcion para hacer mostrar todos los destinos.
 def listar_destinos():
-    # Implementar lógica de listado
     connection = None
     cursor = None
     try:
@@ -224,6 +222,7 @@ def listar_destinos():
         if connection and connection.is_connected():
             connection.close()
 
+# Funcion para hacer insert en la tabla de venta.
 def insertar_venta(id_destino, id_cliente):
     connection = None
     cursor = None
@@ -231,7 +230,7 @@ def insertar_venta(id_destino, id_cliente):
         connection = conectarDB()
         cursor = connection.cursor()
         
-        query = "INSERT INTO venta (id_cliente, id_destino, fecha) VALUES (%s,%s,NOW()) "
+        query = "INSERT INTO venta ( id_destino, id_cliente,fecha) VALUES (%s,%s,NOW()) "
 
         cursor.execute(query, (id_destino, id_cliente,))   
         connection.commit() 
@@ -245,6 +244,7 @@ def insertar_venta(id_destino, id_cliente):
     except Exception as e:
         print(f"Error al intentar dar de alta una Venta: {e}")
 
+# Funcion para hacer listar toda la tabla venta.
 def listar_ventas():
     connection = None
     cursor = None
@@ -286,16 +286,16 @@ def listar_ventas():
         if connection and connection.is_connected():
             connection.close()
 
-
+# Funcion para cambiar el estado de venta a 'ANULADA'.
 def anular_venta(id_venta):
-    # Implementar lógica de anulación
+    
     connection = None
     cursor = None
     try:
         connection = conectarDB()
         cursor = connection.cursor()
         
-        query = "UPDATE VENTA SET ESTADO='ANULADA', FECHA_ANULA=NOW() WHERE ID_VENTA = %s"
+        query = "UPDATE VENTA SET ESTADO='ANULADA', FECHA_ANULA=NOW()    WHERE ID_VENTA = %s"
 
         cursor.execute(query, (id_venta,))   
         connection.commit() 
@@ -315,7 +315,7 @@ def anular_venta(id_venta):
         if connection and connection.is_connected():
             connection.close()
 
-
+# Funcion para buscar una venta activa especifica.
 def buscar_venta(id_venta):
     # Se hace select en la tabla ventas buscando por el id_venta y chequeando que el tiempo es menor a 60 dias
     # La escala que tomamos para la prueba es : 5 minutos (60 dias)
@@ -335,7 +335,7 @@ def buscar_venta(id_venta):
         FROM venta AS vta
         INNER JOIN cliente AS cli ON vta.ID_CLIENTE = cli.ID_CLIENTE
         INNER JOIN destino AS des ON vta.ID_DESTINO = des.ID_DESTINO
-        WHERE FECHA >= DATE_SUB(NOW(), INTERVAL 5 DAY) 
+        WHERE FECHA >= DATE_SUB(NOW(), INTERVAL 5 MINUTE) 
         AND ESTADO = 'ACTIVA' 
         AND ID_VENTA = %s
         """
@@ -353,8 +353,8 @@ def buscar_venta(id_venta):
         if connection and connection.is_connected():
             connection.close()
 
-def buscar_cliente(id_cliente):
-    
+# Funcion para buscar un cliente especifico.
+def buscar_cliente(id_cliente):    
     connection = None
     cursor = None
     try:
@@ -382,8 +382,8 @@ def buscar_cliente(id_cliente):
         if connection and connection.is_connected():
             connection.close()
 
-def buscar_destino(id_destino):
-    
+# Funcion para buscar un destino especifico
+def buscar_destino(id_destino):    
     connection = None
     cursor = None
     try:
@@ -410,8 +410,8 @@ def buscar_destino(id_destino):
         if connection and connection.is_connected():
             connection.close()
 
+# Funcion para buscar una venta por cliente o destino.
 def buscar_venta_cliente(id_Cliente=None, id_Destino=None):
-    
     connection = None
     cursor = None
     try:
@@ -457,26 +457,29 @@ def buscar_venta_cliente(id_Cliente=None, id_Destino=None):
             connection.close()
 
 # REPORTES
+# Funcion para listar todas las ventas del mes en curso.
 def ventas_del_mes():
     try:
         connection = conectarDB()
         cursor = connection.cursor()
         cursor.execute("""
-            SELECT id_venta, id_cliente, id_destino, fecha
-            FROM venta
-            WHERE MONTH(fecha) = MONTH(NOW()) AND YEAR(fecha) = YEAR(NOW())
+            SELECT vta.ID_VENTA, cli.NOMBRE, des.PAIS,des.CIUDAD, fecha
+			FROM venta AS vta
+	    	INNER JOIN cliente AS cli ON vta.ID_CLIENTE = cli.ID_CLIENTE
+			INNER JOIN destino AS des ON vta.ID_DESTINO = des.ID_DESTINO
+			WHERE MONTH(fecha) = MONTH(NOW()) AND YEAR(fecha) = YEAR(NOW())
+			AND estado = 'ACTIVA'
         """)
         resultados = cursor.fetchall()
-
         print("\n-------- Ventas del Mes ---------")
-        print("-" * 100)
-        print(f"{'ID Venta'.ljust(10)}{'ID Cliente'.ljust(15)}{'ID Destino'.ljust(15)}{'Fecha'.ljust(25)}")
-        print("-" * 100)
+        print("-" * 110)
+        print(f"{'ID Venta'.ljust(10)}{'Cliente'.ljust(25)}{'País'.ljust(20)}{'Ciudad'.ljust(25)}{'Fecha'.ljust(25)}")
+        print("-" * 110)
 
         for venta in resultados:
-            id_venta, id_cliente, id_destino, fecha = venta
-            fecha_str = fecha.strftime("%d/%m/%Y %H:%M")
-            print(f"{str(id_venta).ljust(10)}{str(id_cliente).ljust(15)}{str(id_destino).ljust(15)}{fecha_str.ljust(25)}")
+            id_venta, nombre_cliente, pais, ciudad, fecha = venta
+            fecha_str = fecha.strftime("%d/%m/%Y %H:%M") if fecha else ""
+            print(f"{str(id_venta).ljust(10)}{nombre_cliente.ljust(25)}{pais.ljust(20)}{ciudad.ljust(25)}{fecha_str.ljust(25)}")
     except Exception as e:
         print(f"Error al listar ventas del mes: {e}")
     finally:
@@ -485,13 +488,14 @@ def ventas_del_mes():
         if connection and connection.is_connected():
             connection.close()
 
+# Funcion para listar todas las ventas activas, totalizadas por mes/año.
 def ventas_totales_por_mes_anio():
     try:
         connection = conectarDB()
         cursor = connection.cursor()
         cursor.execute("""
-            SELECT YEAR(fecha), MONTH(fecha), COUNT(*) as total
-            FROM venta
+            SELECT YEAR(fecha), MONTH(fecha), COUNT(*) as total,sum(costo) AS costo
+            FROM venta as Vta INNER JOIN destino as des ON vta.ID_DESTINO=des.ID_DESTINO 
             WHERE estado = 'ACTIVA'
             GROUP BY YEAR(fecha), MONTH(fecha)
             ORDER BY YEAR(fecha), MONTH(fecha)
@@ -499,13 +503,13 @@ def ventas_totales_por_mes_anio():
         resultados = cursor.fetchall()
 
         print("\n-------- Ventas Totales por Mes/Año ---------")
-        print("-" * 50)
-        print(f"{'Año'.ljust(10)}{'Mes'.ljust(10)}{'Total Ventas'.ljust(20)}")
-        print("-" * 50)
+        print("-" * 60)
+        print(f"{'Año'.ljust(10)}{'Mes'.ljust(10)}{'Total Ventas'.ljust(20)}{'Monto Ventas'.ljust(20)}")
+        print("-" * 60)
 
         for fila in resultados:
-            anio, mes, total = fila
-            print(f"{str(anio).ljust(10)}{str(mes).ljust(10)}{str(total).ljust(20)}")
+            anio, mes, total,costo = fila
+            print(f"{str(anio).ljust(10)}{str(mes).ljust(10)}{str(total).ljust(20)}{str(costo).ljust(20)}")
     except Exception as e:
         print(f"Error al listar ventas por mes/año: {e}")
     finally:
@@ -514,25 +518,34 @@ def ventas_totales_por_mes_anio():
         if connection and connection.is_connected():
             connection.close()
 
+# Funcion para listar todas las ventas anuladas de la fecha.
 def ventas_anuladas():
     try:
         connection = conectarDB()
         cursor = connection.cursor()
         cursor.execute("""
-            SELECT id_venta, id_cliente, fecha
-            FROM venta
-            WHERE estado = 'ANULADA' AND DATE(fecha) = CURDATE()
+            SELECT 
+            id_venta, cli.nombre, des.PAIS, des.CIUDAD,
+            vta.FECHA, vta.FECHA_ANULA
+        FROM venta AS vta
+        INNER JOIN cliente AS cli ON vta.ID_CLIENTE = cli.ID_CLIENTE
+        INNER JOIN destino AS des ON vta.ID_DESTINO = des.ID_DESTINO
+            WHERE estado = 'ANULADA' AND DATE(fecha_anula) = CURDATE()
         """)
         resultados = cursor.fetchall()
 
         print("\n-------- Ventas ANULADAS del Día ---------")
-        print("-" * 80)
-        print(f"{'ID Venta'.ljust(10)}{'ID Cliente'.ljust(20)}{'Fecha'.ljust(25)}")
-        print("-" * 80)
+        print("-" * 130)
+        print(f"{'ID Venta'.ljust(10)}{'Cliente'.ljust(25)}{'País'.ljust(20)}{'Ciudad'.ljust(20)}"
+              f"{'Fecha Venta'.ljust(25)}{'Fecha Anulación'.ljust(25)}")
+        print("-" * 130)
 
         for fila in resultados:
-            id_venta, id_cliente, fecha = fila
-            print(f"{str(id_venta).ljust(10)}{str(id_cliente).ljust(20)}{fecha.strftime('%d/%m/%Y %H:%M').ljust(25)}")
+            id_venta, nombre_cliente, pais, ciudad, fecha, fecha_anula = fila
+            fecha_str = fecha.strftime('%d/%m/%Y %H:%M') if fecha else ""
+            fecha_anula_str = fecha_anula.strftime('%d/%m/%Y %H:%M') if fecha_anula else "—"
+            print(f"{str(id_venta).ljust(10)}{nombre_cliente.ljust(25)}{pais.ljust(20)}{ciudad.ljust(20)}"
+                  f"{fecha_str.ljust(25)}{fecha_anula_str.ljust(25)}")
     except Exception as e:
         print(f"Error al listar ventas anuladas: {e}")
     finally:
@@ -541,57 +554,36 @@ def ventas_anuladas():
         if connection and connection.is_connected():
             connection.close()
 
-
+# Funcion para listar todas las ventas anuladas.
 def todas_ventas_anuladas():
     try:
         connection = conectarDB()
         cursor = connection.cursor()
         cursor.execute("""
-            SELECT id_venta, id_cliente, fecha, fecha_anula
-            FROM venta
-            WHERE estado = 'ANULADA'  order by fecha
+            SELECT 
+            id_venta, cli.nombre, des.PAIS, des.CIUDAD,
+            vta.FECHA, vta.FECHA_ANULA
+        FROM venta AS vta
+        INNER JOIN cliente AS cli ON vta.ID_CLIENTE = cli.ID_CLIENTE
+        INNER JOIN destino AS des ON vta.ID_DESTINO = des.ID_DESTINO
+            WHERE estado = 'ANULADA' 
         """)
         resultados = cursor.fetchall()
 
-        print("\n-------- Todas las Ventas ANULADAS    ---------")
-        print("-" * 80)
-        print(f"{'ID Venta'.ljust(10)}{'ID Cliente'.ljust(20)}{'Fecha'.ljust(25)}{'Fecha Anula'.ljust(25)}")
-        print("-" * 80)
+        print("\n-------- Ventas ANULADAS del Día ---------")
+        print("-" * 130)
+        print(f"{'ID Venta'.ljust(10)}{'Cliente'.ljust(25)}{'País'.ljust(20)}{'Ciudad'.ljust(20)}"
+              f"{'Fecha Venta'.ljust(25)}{'Fecha Anulación'.ljust(25)}")
+        print("-" * 130)
 
         for fila in resultados:
-            id_venta, id_cliente, fecha , fecha_anula= fila
-            print(f"{str(id_venta).ljust(10)}{str(id_cliente).ljust(20)}{fecha.strftime('%d/%m/%Y %H:%M').ljust(25)}{fecha_anula.strftime('%d/%m/%Y %H:%M').ljust(25)}")
+            id_venta, nombre_cliente, pais, ciudad, fecha, fecha_anula = fila
+            fecha_str = fecha.strftime('%d/%m/%Y %H:%M') if fecha else ""
+            fecha_anula_str = fecha_anula.strftime('%d/%m/%Y %H:%M') if fecha_anula else "—"
+            print(f"{str(id_venta).ljust(10)}{nombre_cliente.ljust(25)}{pais.ljust(20)}{ciudad.ljust(20)}"
+                  f"{fecha_str.ljust(25)}{fecha_anula_str.ljust(25)}")
     except Exception as e:
         print(f"Error al listar ventas anuladas: {e}")
-    finally:
-        if cursor:
-            cursor.close()
-        if connection and connection.is_connected():
-            connection.close()
-
-def total_anuladas_por_mes_anio():
-    try:
-        connection = conectarDB()
-        cursor = connection.cursor()
-        cursor.execute("""
-            SELECT YEAR(fecha), MONTH(fecha), COUNT(*) as total
-            FROM venta
-            WHERE estado = 'ANULADA'
-            GROUP BY YEAR(fecha), MONTH(fecha)
-            ORDER BY YEAR(fecha), MONTH(fecha)
-        """)
-        resultados = cursor.fetchall()
-
-        print("\n-------- Total Anuladas por Mes/Año ---------")
-        print("-" * 50)
-        print(f"{'Año'.ljust(10)}{'Mes'.ljust(10)}{'Total Anuladas'.ljust(20)}")
-        print("-" * 50)
-
-        for fila in resultados:
-            anio, mes, total = fila
-            print(f"{str(anio).ljust(10)}{str(mes).ljust(10)}{str(total).ljust(20)}")
-    except Exception as e:
-        print(f"Error al listar anuladas por mes/año: {e}")
     finally:
         if cursor:
             cursor.close()

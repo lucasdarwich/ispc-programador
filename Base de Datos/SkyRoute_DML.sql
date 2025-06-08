@@ -15,5 +15,4 @@ INSERT INTO venta (id_cliente,id_destino,fecha) VALUES (3,4,'2025-05-22 11:18:32
 INSERT INTO venta (id_cliente,id_destino,fecha) VALUES (3,1,'2025-06-03 12:05:50'); 
 INSERT INTO venta (id_cliente,id_destino,fecha) VALUES (3,1,'2025-04-16 12:00:10'); 
 INSERT INTO venta (id_cliente,id_destino,fecha) VALUES (3,1,'2025-04-09 14:24:02'); 
-INSERT INTO venta (id_cliente,id_destino,fecha, estado, fecha_anula, motivo_anula)
-VALUES (3,2,'2025-04-09 12:14:22','ANULADA','2025-04-09 13:44:22','Cambio de destino'); 
+INSERT INTO venta (id_cliente,id_destino,fecha, estado, fecha_anula) VALUES (3,2,'2025-04-09 12:14:22','ANULADA','2025-04-09 13:44:22'); 

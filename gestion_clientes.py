@@ -1,4 +1,5 @@
 # gestion_clientes.py
+
 # Alta, baja, modificación, listado de clientes
 
 from crudDB import insertar_cliente, actualizar_cliente, eliminar_cliente, listar_clientes,buscar_cliente, buscar_venta_cliente
@@ -37,8 +38,6 @@ def menu_gestion_clientes():
                 else:
                     print("CUIT invalido. Intente de nuevo.")
  
-            #mail del cliente, valida
-
             while True:
                 mailCliente = input("Ingrese su correo electrónico: ")
                 if not mailCliente:
@@ -101,7 +100,7 @@ def menu_gestion_clientes():
             idCliente = int(input("Ingrese el ID Cliente a eliminar: "))
             
             #se busca el cliente, solicita la confirmacion que es el cliente correcto y se elimina
-            #Se busca si existe el cliente
+ 
             clienteEncontrado= buscar_cliente(idCliente)
             
             if clienteEncontrado:
@@ -109,7 +108,6 @@ def menu_gestion_clientes():
                 # Si existe el cliente busca que no tenga ventas para poder eliminar
 
                 ventaEncontrado= buscar_venta_cliente(id_Cliente=idCliente)
-                
                 
                 if not ventaEncontrado:
 

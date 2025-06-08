@@ -54,8 +54,8 @@ def menu_gestion_destinos():
             #Se solicita el ID del Destino a Eliminar
             print("\n** Has elegido la opción: Eliminar Destino")
             idDestino = int(input("Ingrese el ID Destino a eliminar: "))
-            #se busca el Destino, solicita la confirmacion que es el Destino correcto y se elimina
 
+            #se busca el Destino, solicita la confirmacion que es el Destino correcto y se elimina
             destinoEncontrado= buscar_destino(idDestino)
             
             if destinoEncontrado:
@@ -69,7 +69,7 @@ def menu_gestion_destinos():
                     print("\n Detalle del Destino: ")
                     print(destinoEncontrado)
                     print("\n")
-                    # Eliminacion del destino
+                    
                     # Preguntar al usuario si confirma la eliminacion
                     respuesta = input("\n ¿Estás seguro que quieres eliminar el cliente? (s/n): ").lower()
 
