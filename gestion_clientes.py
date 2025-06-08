@@ -1,7 +1,8 @@
 # gestion_clientes.py
 # Alta, baja, modificación, listado de clientes
 
-from crudDB import insertar_cliente, actualizar_cliente, eliminar_cliente, listar_clientes
+from crudDB import insertar_cliente, actualizar_cliente, eliminar_cliente, listar_clientes,buscar_cliente, buscar_venta_cliente
+from valida import valida_cuit, valida_mail
 
 def menu_gestion_clientes():
     print("\nIngresaste al Submenu Gestion Clientes...")
@@ -27,52 +28,119 @@ def menu_gestion_clientes():
             #Se piden los datos del cliente (nombre, cuil y mail) y solicita confirmacion 
             nombreCliente = input("\nIngrese el nombre del Cliente: ")
             
-            # pide el numero de CUIT, debe ser int y 11 digitos 
+            # pide el numero de CUIT, debe ser ingresado segun  formato indicado  
             while True:
-                cuitCliente = input("Ingrese el CUIT (11 dígitos, sin guiones y solo numeros): ")
-                if len(cuitCliente) == 11:
-                    if cuitCliente.isdigit():
-                        print("Es un número de CUIT válido.")
-                        break
-                    else:
-                        print("No es un número entero.")
+                cuitCliente = input("Ingrese el CUIT con el siguiente formato (99-99999999-9): ")
+                if valida_cuit(cuitCliente):
+                    print("CUIT valido.")
+                    break
                 else:
-                    print("El numero de CUIT debe ser de 11 digitos")
+                    print("CUIT invalido. Intente de nuevo.")
+ 
+            #mail del cliente, valida
 
-            mailCliente = input("Ingrese el mail de cliente: ")
-            print("\n----------------------------------------------------------------")
-            print(f"Ingreso la siguiente informacion para el CLIENTE: \n    Nombre: {nombreCliente} - CUIT: {cuitCliente} - Mail: {mailCliente}")          
-            print("----------------------------------------------------------------")
+            while True:
+                mailCliente = input("Ingrese su correo electrónico: ")
+                if not mailCliente:
+                    break
+                if valida_mail(mailCliente):
+                    print("El mail es válido.")
+                    break
+                else:
+                    print("Email invalido. Intente nuevamente.")
+            
             #hacer insert del nuevo cliente
-            insertar_cliente(nombreCliente, cuitCliente, mailCliente)
+            mensaje=insertar_cliente(nombreCliente, cuitCliente, mailCliente)
+            print(mensaje)
 
         # Modifica Cliente    
         elif opcion == "3":
             #Solicita el id del cliente, para validar que exista y asi poder modificar
             print("\n** Has elegido la opción: Modificar Cliente")
             idCliente = int(input("Ingrese el ID Cliente a modificar: "))
-         
-            # se busca el cliente con el id indicado y se procede a solicitar los atributos a modificar (nombre o cuit o mail)
-            print(f"Has elegido el cliente con ID {idCliente} para modificar ")
-            #Solicitar los datos a modificar y hacer update 
-            nombreCliente = input("\nIngrese el nuevo nombre del Cliente: ")
-            cuitCliente = input("Ingrese el nuevo CUIT (11 dígitos, sin guiones y solo numeros): ")
-            mailCliente = input("Ingrese el nuevo mail de cliente: ")
-            actualizar_cliente(idCliente, nombreCliente, cuitCliente, mailCliente)
+           
+           #Se busca si existe el cliente
+            clienteEncontrado= buscar_cliente(idCliente)
+            
+            if clienteEncontrado:
+                print(clienteEncontrado)
+                #Solicitar los datos a modificar y hacer update 
+                nombreCliente = input("\nIngrese el nuevo nombre del Cliente: ")
+                
+                # pide el numero de CUIT, debe ser ingresado segun  formato indicado  
+                while True:
+                    cuitCliente = input("Ingrese el CUIT con el siguiente formato (99-99999999-9): ")
+                    if valida_cuit(cuitCliente):
+                        print("CUIT valido.")
+                        break
+                    else:
+                        print("CUIT invalido. Intente de nuevo.")
+    
+                #mail del cliente, valida
+
+                while True:
+                    mailCliente = input("Ingrese su correo electrónico: ")
+                    if not mailCliente:
+                        break
+                    if valida_mail(mailCliente):
+                        print("El mail es válido.")
+                        break
+                    else:
+                        print("Email invalido. Intente nuevamente.")
+                
+
+                mensaje=actualizar_cliente(idCliente, nombreCliente, cuitCliente, mailCliente)
+                print(mensaje)
+            else:
+                print("Cliente no encontrado por favor intente nuevamente")
 
         #Elimina Cliente 
         elif opcion == "4":
             #Se solicita el ID del cliente a Eliminar
             print("\n** Has elegido la opción: Eliminar Cliente")
             idCliente = int(input("Ingrese el ID Cliente a eliminar: "))
+            
             #se busca el cliente, solicita la confirmacion que es el cliente correcto y se elimina
-            print(f"\nHas elegido el cliente con ID {idCliente} para eliminar")
-            #Proceso de delete del cliente
-            eliminar_cliente(idCliente)
+            #Se busca si existe el cliente
+            clienteEncontrado= buscar_cliente(idCliente)
+            
+            if clienteEncontrado:
+                 
+                # Si existe el cliente busca que no tenga ventas para poder eliminar
+
+                ventaEncontrado= buscar_venta_cliente(id_Cliente=idCliente)
+                
+                print(ventaEncontrado)
+                
+                if not ventaEncontrado:
+
+                    print("\n Detalle de Cliente: ")
+                    print(clienteEncontrado)
+                    print("\n")
+ 
+                     # Preguntar al usuario si confirma la eliminacion
+                    respuesta = input("\n ¿Estás seguro que quieres eliminar el cliente? (s/n): ").lower()
+
+                    if respuesta == "s" or respuesta == "sí":
+                    
+                        # Se elimina el cliente
+                        mensaje=eliminar_cliente(idCliente)
+                        print(mensaje)          
+                    else:
+                        print("\n Cancelo la eliminacion del cliente")       
+               
+                     
+                else:
+                    print("\n Detalle de Cliente: ")
+                    print(clienteEncontrado)
+                    print("\n No se puede eliminar el cliente porque tiene ventas asignadas.")
+                    
+            else:
+                print("Cliente no encontrado por favor intente nuevamente")
+
        
         #Volver al menu principal
         elif opcion == "5":
             break
         else:
             print("Opción no válida. Intente nuevamente.")
-            
