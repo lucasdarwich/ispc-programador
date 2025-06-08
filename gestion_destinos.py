@@ -1,7 +1,7 @@
 # gestion_destinos.py
 # Alta, baja, modificación, listado de destinos
 
-from crudDB import insertar_destino, actualizar_destino, eliminar_destino, listar_destinos
+from crudDB import insertar_destino, actualizar_destino, eliminar_destino, listar_destinos,buscar_destino,buscar_venta_cliente
 
 def menu_gestion_destinos():
     print("\nIngresaste al Submenu Gestion Destinos...")
@@ -29,10 +29,8 @@ def menu_gestion_destinos():
             ciudadDestino = input("Ingrese el nombre de la Ciudad : ")
             costoDestino = input(f"Ingrese el costo para el Destino: {ciudadDestino}-{paisDestino}: ")
             
-            print("\n----------------------------------------------------------------")
-            print(f"Ingreso la siguiente informacion para el Destino: \n Ciudad: {ciudadDestino} - Pais: {paisDestino} - COSTO: {costoDestino}")          
-            print("----------------------------------------------------------------")
-            insertar_destino(paisDestino, ciudadDestino, costoDestino)
+            mensaje=insertar_destino(paisDestino, ciudadDestino, costoDestino)
+            print(mensaje)
 
         # Modifica Destino    
         elif opcion == "3":
@@ -41,24 +39,59 @@ def menu_gestion_destinos():
             idDestino = int(input("Ingrese el ID Destino a modificar: "))
             
             # se busca el Destino con el id indicado y se procede a solicitar los atributos a modificar (pais, ciudad o costo)
-            print(f"Has elegido el destino con ID {idDestino} para modificar ")
-            #Solicitar los datos a modificar(PAIS - CIUDAD o COSTO) y hacer update 
-            paisDestino = input("\nIngrese el nuevo nombre del Pais: ")
-            ciudadDestino = input("Ingrese el nuevo nombre de la Ciudad: ")
-            costoDestino = input(f"Ingrese el nuevo costo para el Destino: {ciudadDestino}-{paisDestino}: ")
-            actualizar_destino(idDestino, paisDestino, ciudadDestino, costoDestino)
-
+            destinoEncontrado= buscar_destino(idDestino)
+             
+            if destinoEncontrado:
+                print(destinoEncontrado)
+                #Solicitar los datos a modificar(PAIS - CIUDAD o COSTO) y hacer update 
+                paisDestino = input("\nIngrese el nuevo nombre del Pais: ")
+                ciudadDestino = input("Ingrese el nuevo nombre de la Ciudad: ")
+                costoDestino = input(f"Ingrese el nuevo costo para el Destino: {ciudadDestino}-{paisDestino}: ")
+                mensaje=actualizar_destino(idDestino, paisDestino, ciudadDestino, costoDestino)
+                print(mensaje)
         #Elimina Destino 
         elif opcion == "4":
             #Se solicita el ID del Destino a Eliminar
             print("\n** Has elegido la opción: Eliminar Destino")
             idDestino = int(input("Ingrese el ID Destino a eliminar: "))
             #se busca el Destino, solicita la confirmacion que es el Destino correcto y se elimina
-            eliminar_destino(idDestino)
+
+            destinoEncontrado= buscar_destino(idDestino)
+            
+            if destinoEncontrado:
+                 
+                # Si existe el destino busca que no tenga ventas para poder eliminar
+
+                ventaEncontrado= buscar_venta_cliente(id_Destino=idDestino)
+                
+                if not ventaEncontrado:
+
+                    print("\n Detalle del Destino: ")
+                    print(destinoEncontrado)
+                    print("\n")
+                    # Eliminacion del destino
+                    # Preguntar al usuario si confirma la eliminacion
+                    respuesta = input("\n ¿Estás seguro que quieres eliminar el cliente? (s/n): ").lower()
+
+                    if respuesta == "s" or respuesta == "sí":
+                    
+                        # Se elimina el cliente
+                        mensaje=eliminar_destino(idDestino)
+                        print(mensaje)          
+                    else:
+                        print("\n Cancelo la eliminacion del cliente")       
+                else:
+                    print("\n Detalle de Cliente: ")
+                    print(destinoEncontrado)
+                    print("\n No se puede eliminar el cliente porque tiene ventas asignadas.")
+                    
+            else:
+                print("Cliente no encontrado por favor intente nuevamente")
+
+            
         
         #Volver al menu principal
         elif opcion == "5":
             break
         else:
             print("Opción no válida. Intente nuevamente.")
-            

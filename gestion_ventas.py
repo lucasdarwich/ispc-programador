@@ -1,8 +1,7 @@
 # gestion_ventas.py
 # Registrar ventas y botón de arrepentimiento
 from datetime import datetime
-from crudDB import insertar_venta, listar_ventas, anular_venta, buscar_venta
-
+from crudDB import insertar_venta, listar_ventas, anular_venta, buscar_venta, buscar_cliente,buscar_destino
 def menu_gestion_ventas():
     print("\nIngresaste al Submenu Gestion Ventas...")
     while True:
@@ -23,23 +22,26 @@ def menu_gestion_ventas():
         elif opcion == "2":
             print("\n ** Has elegido la opción: Agregar Venta")
             #Se piden los datos del Venta (destino, cliente, fecha) 
-            idDestinoVenta = input("\nIngrese el Destino de Viaje: ")
-            #nombreDestino = función para encontrar nombre destino según el idDestinoVenta y costo del destino para informar al usuario
-            nombreDestino = "Pais-Ciudad Prueba"  # Placeholder
-            costoDestino = 9999999.99  # Placeholder
-
+            
             idClienteVenta = input("Ingrese el Cliente del viaje: ")
-            #nombreCliente = función de búsqueda del nombre según idClienteVenta ingresado
-            nombreCliente = "Nombre Cliente Prueba"  # Placeholder
+            clienteEncontrado= buscar_cliente(idClienteVenta)
+            
+            if clienteEncontrado:
+                print(clienteEncontrado)
+                idDestinoVenta = input("\nIngrese el Destino de Viaje: ") 
+                # se busca el Destino con el id indicado y se procede a solicitar los atributos a modificar (pais, ciudad o costo)
+                destinoEncontrado= buscar_destino(idDestinoVenta)
+                
+                if destinoEncontrado:
 
-            fechaVenta = input("Ingrese la fecha de viaje (DD/MM/AAAA): ")
-
-            print("\n----------------------------------------------------------------")
-            print(f"Ingreso la siguiente informacion para esta Venta: \n    Destino: {nombreDestino} - Cliente: {nombreCliente} - Fecha: {fechaVenta} ")
-            print(f"Costo a ese destino: {costoDestino}")          
-            print("----------------------------------------------------------------")
-            insertar_venta(idDestinoVenta, idClienteVenta, fechaVenta)
-
+                    print(destinoEncontrado)
+                    #Solicitar los datos a modificar(PAIS - CIUDAD o COSTO) y hacer update 
+                    mensaje = insertar_venta(idDestinoVenta, idClienteVenta)
+                    print(mensaje)
+                else: 
+                    print("No encontro el destino. Intente nuevamente.")
+            else:
+                print("No se encontró el cliente.Intente nuevamente")
         #Volver al menu principal
         elif opcion == "3":
             break
@@ -56,24 +58,30 @@ def boton_arrepentimiento():
     #Valida que el comprobante sea un numero
     if idVenta.isdigit():
         idVenta = int(idVenta)
-        ventaEncontrada = buscar_venta(idVenta)  # Placeholder para la búsqueda
+         
+         #Busca en la tabla si existe algun registro con ese id
+        ventaEncontrada = buscar_venta(idVenta)  
         
         #En este punto se implementa un bucle para realizar la busqueda de la venta segun el comprobante ingresado
         if not ventaEncontrada:
             print("\n__________________________________________________")
-            print(f"No se encontraron ventas con ese comprobante: {idVenta}.")
+            print(f"No se encontraron ventas para anular con ese comprobante: {idVenta}.")
             print("__________________________________________________")
         else:
             # Muestra los detalles de la venta y se actualiza el estado a ANULADA
+            print("\n--- DETALLE DE LA VENTA A ANULAR ---")
+            print("-" * 90)
+            print(ventaEncontrada)  
+            print("-" * 90) 
+            # Preguntar al usuario si confirma la ANULACION
+            respuesta = input("\n ¿Estás seguro  ANULAS el viaje? (s/n): ").lower()
 
-            print("\n__________________")
-            print("Detalles de la venta:")
-            #  id_venta, id_cliente, id_destino, fecha_formateada = resultado
-            print(ventaEncontrada) 
-            # Se hace update a ANULADA
-            mensaje = anular_venta(idVenta)
-            print(mensaje) 
-                       
+            if respuesta == "s" or respuesta == "sí":
+                    
+                # Se hace update a ANULADA
+                mensaje = anular_venta(idVenta)
+                print(mensaje)          
+            else:
+                print("\n Cancelo la anulacion de la venta")           
     else:
         print("El numero de comprobante debe ser un número entero.")
-        

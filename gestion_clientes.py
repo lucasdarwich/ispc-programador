@@ -110,7 +110,6 @@ def menu_gestion_clientes():
 
                 ventaEncontrado= buscar_venta_cliente(id_Cliente=idCliente)
                 
-                print(ventaEncontrado)
                 
                 if not ventaEncontrado:
 
